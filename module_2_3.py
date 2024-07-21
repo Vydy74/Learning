@@ -8,6 +8,8 @@ while i < len(my_list):
     if my_list[i] > 0:
         new_list.append(my_list[i])
         i += 1
+    elif my_list[i] == 0:
+        i += 1
     else:
         break
 
