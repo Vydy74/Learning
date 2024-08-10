@@ -41,8 +41,7 @@ class House:
         if isinstance(value, int):
             self.number_of_floors += value
             return self
-        else:
-            return 0
+        
 
     def __radd__(self, value):
         return self.__add__(value)
