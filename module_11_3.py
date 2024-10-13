@@ -6,10 +6,19 @@ class Introspection_info:
     def _get_introspection_info(self):
         # Получаем тип объекта
         object_type = "class" if isinstance(self.obj, type) else type(self.obj).__name__
+        attributes = []
+        methods = []
+
+        for attr in dir(self.obj):
+            if not callable(getattr(self.obj, attr)): # Проверяем на вызов метода
+                attributes.append(attr)
+            else:
+                methods.append(attr)
+
         info = {
             'type': object_type,
-            'attributes': dir(self.obj),
-            'methods': [attr for attr in dir(self.obj) if callable(getattr(self.obj, attr))], # Проверяем на вызов метода
+            'attributes': attributes,
+            'methods': methods,
             'module': getattr(self.obj, '__module__', 'N/A') # Модуль может быть недоступен
         }
 
@@ -33,9 +42,6 @@ class Introspection_info:
 
     def get_info(self):
         return self.info
-
-    def __str__(self):
-        return str(self.info)
 
 
 # Пример работы:
