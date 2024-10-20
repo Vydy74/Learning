@@ -35,7 +35,8 @@ class TournamentTest(unittest.TestCase):
         self.assertTrue(result[last_place] == "Ник")
     """
 Ошибка в классе Runner заключается в умножении скорости на два, из за этого бегуны
-с небольшой разницей скорости проходят расстояние за одинаковое колличество итераций
+с небольшой разницей скорости проходят расстояние за одинаковое колличество итераций.
+Ну или явно указать неравенство if participant.distance > self.full_distance:
 """
     def test_usain_andrey_and_nick(self):
         tournament = Tournament(90, self.andrey, self.usain, self.nick)
