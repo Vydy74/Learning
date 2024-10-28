@@ -1,0 +1,8 @@
+2024-10-28 12:08:17,757, WARNING, Неверный тип данных для объекта Runner
+2024-10-28 12:08:17,757, WARNING, Неверная скорость для Runner
+Traceback (most recent call last):
+  File "I:\Programming\Trening\Learning\Module 12\tests_12_4.py", line 16, in test_walk
+    bigun1 = Runner("Vasya", -5)
+  File "I:\Programming\Trening\Learning\Module 12\rt_with_exceptions.py", line 11, in __init__
+    raise ValueError(f'Скорость не может быть отрицательной, сейчас {speed}')
+ValueError: Скорость не может быть отрицательной, сейчас -5
