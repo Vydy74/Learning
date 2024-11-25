@@ -7,7 +7,7 @@ from pathlib import Path
 from aiogram.types import FSInputFile
 from crud_functions import initiate_db, get_all_products
 
-api = ""
+api = "6157846986:AAHBUwqwzWgbj0xxkWfIrDE7yYFsnu372_Q"
 
 bot = Bot(token=api)
 dp = Dispatcher(storage=MemoryStorage())
@@ -15,7 +15,8 @@ initiate_db()
 
 kb = ReplyKeyboardMarkup(keyboard=[[KeyboardButton(text='Рассчитать'),
                                   KeyboardButton(text='Информация')],
-                                  [KeyboardButton(text='Купить')]],
+                                  [KeyboardButton(text='Купить')],
+                                  [KeyboardButton(text='Регистрация')]],
                         resize_keyboard=True)
 
 ikb = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text='Рассчитать норму калорий', callback_data='calories')],
