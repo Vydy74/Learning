@@ -7,7 +7,7 @@ from pathlib import Path
 from aiogram.types import FSInputFile
 from crud_functions import initiate_db, get_all_products, add_user, is_included
 
-api = "6157846986:AAHBUwqwzWgbj0xxkWfIrDE7yYFsnu372_Q"
+api = ""
 
 bot = Bot(token=api)
 dp = Dispatcher(storage=MemoryStorage())
