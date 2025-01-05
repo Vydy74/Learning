@@ -9,9 +9,10 @@ class Task(Base):
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String)
     content = Column(String)
-    priority = Column(Integer, nullable=True)
+    priority = Column(Integer)
     complited = Column(Boolean, default=False)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False, index=True)
     slug = Column(String, unique=True, index=True)
+
 
     user = relationship("User", back_populates="tasks")
