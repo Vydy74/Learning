@@ -6,6 +6,7 @@ from typing import Annotated, List
 from sqlalchemy import select, insert, update, delete
 
 from app.models.user import User
+from app.models.task import Task
 from app.schemas import CreateUser, UpdateUser
 
 router = APIRouter(prefix="/user", tags=["user"])
@@ -37,7 +38,7 @@ async def create_user(user_data: CreateUser, db: Annotated[Session, Depends(get_
 
 
 @router.put("/update_user")
-async def update_user(db: Annotated[Session, Depends(get_db)], user_id: int, update_user: UpdateUser):
+async def update_user(update_user: UpdateUser, db: Annotated[Session, Depends(get_db)], user_id: int):
     updated_user = select(User).where(User.id == user_id)
     user = db.scalar(updated_user)
     if user is None:
@@ -49,17 +50,28 @@ async def update_user(db: Annotated[Session, Depends(get_db)], user_id: int, upd
     #     pass
 
     db.execute(update(User).where(User.id == user_id).values(
-        username=update_user.username,
         firstname=update_user.firstname,
         lastname=update_user.lastname,
         age=update_user.age,
-        slug=slugify(update_user.username)
+        slug=slugify(update_user.firstname)
     ))
     db.commit()
     return {
         "status_code": status.HTTP_200_OK,
         "transaction": "Category update successful"
     }
+
+
+@router.get("/user_id/tasks")
+async def tasks_by_user_id(user_id: int, db: Annotated[Session, Depends(get_db)]):
+    # Проверка
+    user = db.scalar(select(User).where(User.id == user_id))
+    if user is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User was not found")
+
+    # Получаем все записи пользователя
+    tasks = db.scalars(select(Task).where(Task.user_id == user_id)).all()
+    return tasks
 
 @router.delete("/delete")
 async def delete_user(user_id: int, db: Annotated[Session, Depends(get_db)]):
@@ -69,7 +81,7 @@ async def delete_user(user_id: int, db: Annotated[Session, Depends(get_db)]):
     user = db.scalar(user_query)
     if user is None:
         raise HTTPException(status_code=404, detail="User was not found")
-
+    db.execute(delete(Task).where(Task.user_id == user_id))
     # Удаляем пользователя
     db.execute(delete(User).where(User.id == user_id))
     db.commit()
@@ -77,3 +89,4 @@ async def delete_user(user_id: int, db: Annotated[Session, Depends(get_db)]):
         "status_code": status.HTTP_200_OK,
         "transaction": "User delete is successful!",
     }
+# db.execute(delete(Task).where(Task.user_id == user_id))
